@@ -1,24 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-<link rel="stylesheet" href="style.css">
-  
-  <body>
-    
-    <div id="navbar"></div>
 
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    #container{
+        margin:8%;
+        display: grid;
+        grid-template-columns: repeat(3,30%);
+        gap: 4%;
+    }
+    #container img{
+        width: 100%;
+        height: 20%;
+    }
+  </style>
+  
+</head>
+<link rel="stylesheet" href="style2.css">
+
+<body>
+
+  <div id="navbar"></div>
+  <div id="container"></div>
+
+</body>
+
 </html>
 
 <script type="module">            //  to avoid error "import cannot be used outside the module"
-  import navbar from"./components/navbar.js";      // path of navbar.js should be correct as per folder. 
-//    console.log("navbar:",navbar);
-let navbar_div=document.getElementById("navbar"); 
-  navbar_div.innerHTML =navbar(); 
-  
+  import navbar from "./components/navbar.js";      // path of navbar.js should be correct as per folder. 
+
+  import { getData, appendData } from "./scripts/showRandomRecipe.js"
+
+  let navbar_div = document.getElementById("navbar");   // instead of utilising whole body make a sperate div.  
+  navbar_div.innerHTML = navbar();
+
+  let response = getData("https://www.themealdb.com/api/json/v1/1/search.php?s=chicken");
+console.log(response); 
+
+  response.then((res) => {
+    let container = document.getElementById("container");
+    appendData(res, container);
+
+  })
+    .catch((error) => {
+      console.log("error:", error);
+    })
+
+
+
 </script>
